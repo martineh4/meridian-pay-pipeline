@@ -1,7 +1,7 @@
 # Meridian Pay CI/CD Pipeline — Security Controls Documentation
 
 **Version:** 1.0.0  
-**Last updated:** 2026-09-27  
+**Last updated:** 2026-09-29  
 **Owner:** DevOps / Platform Engineering
 
 ---
@@ -112,16 +112,19 @@ A successful verification output confirms the image was built by this repository
 push to main
      │
      ▼
-  [test] ──────────────────────────────────────────────────────────┐
-     │                                                              │
-     ▼                                                              │
-[vulnerability-scan]                                               │
-     │                                                              │
-     ▼                                                              │
-[build-and-push] ──────────────────┐                               │
-     │                             │                               │
-     ▼                             ▼                               │
-  [sbom]                        [sign] ◄────── needs both ─────────┘
+  [test]
+     │
+     ▼
+[vulnerability-scan]
+     │
+     ▼
+[build-and-push] ──────────────────┐
+     │                             │
+     ▼                             │
+  [sbom]                           │
+     │                             │
+     └──────────► [sign] ◄─────────┘
+                  needs: build-and-push + sbom
 ```
 
 ---

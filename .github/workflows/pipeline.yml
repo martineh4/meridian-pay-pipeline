@@ -65,7 +65,7 @@ jobs:
         continue-on-error: true
 
       - name: Trivy filesystem scan
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
@@ -174,8 +174,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Sign container image (keyless OIDC)
-        env:
-          COSIGN_EXPERIMENTAL: '1'
         run: |
           cosign sign --yes \
             "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ needs.build-and-push.outputs.digest }}"
@@ -187,8 +185,6 @@ jobs:
           path: ./sbom
 
       - name: Attest SBOM to image
-        env:
-          COSIGN_EXPERIMENTAL: '1'
         run: |
           cosign attest --yes \
             --predicate ./sbom/sbom.cdx.json \
